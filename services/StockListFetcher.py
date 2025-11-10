@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 class StockListFetcher:
-    def get_sp500_tickers(self):
+    def get_sp500_tickers():
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -27,5 +27,5 @@ class StockListFetcher:
         return(tickers)
 
 # Test usage
-fetcher = StockListFetcher()
-print(fetcher.get_sp500_tickers())
+# fetcher = StockListFetcher()
+# print(fetcher.get_sp500_tickers())

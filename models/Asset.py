@@ -26,7 +26,10 @@ class Asset:
     def _calculate_variance(self, asset_returns:DataFrame):
         n = asset_returns.count()
         sum_of_squared_deviations = DataFrame((asset_returns - asset_returns.mean()) ** 2).sum()
-        return float(sum_of_squared_deviations / (n-1))
+
+        daily_variance = float(sum_of_squared_deviations / (n-1))
+
+        return daily_variance * 250 # Annualized variance
         
 
     def _calculate_covariance(self, asset_returns:DataFrame, market_returns:DataFrame):
@@ -42,7 +45,9 @@ class Asset:
         cross_product = DataFrame(asset_deviations * market_deviations)
         sum_of_cross_product = cross_product.sum()[0]
 
-        return float(sum_of_cross_product / (n-1))
+        daily_covariance = float(sum_of_cross_product / (n-1))
+
+        return daily_covariance * 250 # Annualized covariance
 
     def _calculate_beta(self, market_variance, covariance):
         return covariance / market_variance
@@ -54,6 +59,6 @@ class Asset:
         return risk_free_rate + beta * erp
 
 # Testing purposes
-stock = Asset('aapl')
-for prop, value in stock.__dict__.items():
-    print(f"{prop}: {value}\n\n\n")
+# stock = Asset('aapl')
+# for prop, value in stock.__dict__.items():
+#     print(f"{prop}: {value}\n\n\n")
