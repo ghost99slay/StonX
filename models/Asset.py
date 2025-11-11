@@ -3,7 +3,7 @@ from websockets.typing import Data
 import yfinance as yf
 class Asset:
     def __init__(self, ticker: str) -> None:
-        self.ticker = ticker
+        self.ticker = str(ticker).upper()
         self.asset_data_5y = self._get_asset_data_5y(self.ticker)
         self.market_data_5y = self._get_asset_data_5y('SPY')
         self.asset_returns_5y = self._calculate_asset_returns(self.asset_data_5y)
@@ -21,7 +21,7 @@ class Asset:
         return f"Asset:({self.ticker})"
 
     def _get_asset_data_5y(self, ticker):
-        return yf.download(ticker, period='5y', interval='1d')
+        return yf.download(ticker, period='5y', interval='1d', auto_adjust=True)
 
     def _calculate_asset_returns(self, asset_data: DataFrame):
         return asset_data['Close'].pct_change()[1:]
@@ -30,7 +30,7 @@ class Asset:
         n = asset_returns.count()
         sum_of_squared_deviations = DataFrame((asset_returns - asset_returns.mean()) ** 2).sum()
 
-        daily_variance = float(sum_of_squared_deviations / (n-1))
+        daily_variance = float((sum_of_squared_deviations / (n-1)).iloc[0])
 
         return daily_variance * 250 # Annualized variance
         
@@ -46,9 +46,9 @@ class Asset:
         asset_deviations.columns = ['deviations']
         market_deviations.columns = ['deviations']
         cross_product = DataFrame(asset_deviations * market_deviations)
-        sum_of_cross_product = cross_product.sum()[0]
+        sum_of_cross_product = cross_product.sum().iloc[0]
 
-        daily_covariance = float(sum_of_cross_product / (n-1))
+        daily_covariance = float((sum_of_cross_product / (n-1)).iloc[0])
 
         return daily_covariance * 250 # Annualized covariance
 

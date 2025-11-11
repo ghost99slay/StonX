@@ -15,7 +15,7 @@ class Portfolio:
         self.correlation_matrix = self._correlation_matrix_generator.GenerateMatrix(self.tickers)
 
         self.assets = [Asset(ticker) for ticker in tickers]
-
+        
         self.risk = self._portfolio_risk()
         self.expected_return = self._portfolio_expected_return()
 
@@ -34,8 +34,12 @@ class Portfolio:
 
         for i in range(n):
             for j in range(n):
-                contribution = self.weights[i] * self.weights[j] * self.assets[i].risk * self.assets[j].risk * self.correlation_matrix[self.tickers[i]][self.tickers[j]]
-                portfolio_variance += contribution
+                try:
+                    contribution = self.weights[i] * self.weights[j] * self.assets[i].risk * self.assets[j].risk * self.correlation_matrix[self.assets[i].ticker][self.assets[j].ticker]
+                    portfolio_variance += contribution
+                except KeyError as e:
+                    print(f"Error calculating corr matrix on assets: {self.tickers[i]}{self.tickers[j]}")
+                    print(self.tickers)
 
         return portfolio_variance ** 0.5
 
