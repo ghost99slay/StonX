@@ -1,16 +1,10 @@
-from models.Asset import Asset
-from services.StockListFetcher import StockListFetcher
+# from services.StockListFetcher import StockListFetcher
+from numpy import test
+from models.Portfolio import Portfolio
 
-tickers = StockListFetcher.get_sp500_tickers()
+# tickers = StockListFetcher.get_sp500_tickers()
+# print(tickers)
 
-assets = []
 
-for ticker in tickers:
-    asset = Asset(ticker)
-    assets.append(asset)
-
-for asset in assets:
-    print(asset.ticker)
-    print(asset.risk)
-    print(asset.expected_return)
-    print('\n')
+test_portfolio = Portfolio(['k', 'pg'])
+print(test_portfolio)

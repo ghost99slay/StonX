@@ -17,6 +17,9 @@ class Asset:
         self.risk = self._calculate_risk(self.asset_variance)
         self.expected_return = self._calculate_expected_return(risk_free_rate=0.041, beta=self.beta, erp=0.05)
 
+    def __repr__(self):
+        return f"Asset:({self.ticker})"
+
     def _get_asset_data_5y(self, ticker):
         return yf.download(ticker, period='5y', interval='1d')
 
