@@ -62,6 +62,5 @@ class Asset:
         return risk_free_rate + beta * erp
 
 # Testing purposes
-# stock = Asset('aapl')
-# for prop, value in stock.__dict__.items():
-#     print(f"{prop}: {value}\n\n\n")
+asset = Asset('aapl')
+print(list(asset.asset_data_5y.columns))
